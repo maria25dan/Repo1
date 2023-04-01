@@ -16,7 +16,6 @@ Interactionează cu un element la alegere din listă.
 '''
 import time
 from selenium import webdriver
-from selenium.common import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 
 # ● Id
@@ -132,10 +131,10 @@ Pentru xpath identifică elemente după criteriile de mai jos:
 
 '''
 # ----------------------------● 3 după atribut valoare
-driver = webdriver.Chrome()
-driver.get("https://formy-project.herokuapp.com/form")
-time.sleep(2)
-driver.maximize_window()
+# driver = webdriver.Chrome()
+# driver.get("https://formy-project.herokuapp.com/form")
+# time.sleep(2)
+# driver.maximize_window()
 # atribut_1_absolut = driver.find_elements(By.XPATH, '/html/body/div/form/div/div[1]/input')
 # print(f'Avem {len(atribut_1_absolut)} element')
 #
@@ -146,33 +145,53 @@ driver.maximize_window()
 # print(f'Avem {len(atribut_3_relativ)} element')
 
 # ----------------------------● 3 după textul de pe element
-element_text_1 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
-print(f"Avem: {(element_text_1)} elemente")
-element_text_2 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
-element_text_3 = driver.find_element(By.XPATH, '//label[(text()="First name")]')
-element_text_4 = driver.find_element(By.XPATH, '//label[contains(text(), "Job")]')
+# element_text_1 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
+# print(f"Avem: {(element_text_1)} elemente")
+# element_text_2 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
+# element_text_3 = driver.find_element(By.XPATH, '//label[(text()="First name")]')
+# element_text_4 = driver.find_element(By.XPATH, '//label[contains(text(), "Job")]')
 
 
 # ----------------------------● 1 după parțial text
-element_nume = driver.find_element(By.XPATH, '//*[contains(@ID,"name")]')
-print(element_nume)
+#element_nume = driver.find_element(By.XPATH, '//*[contains(@ID,"name")]')
+#print(element_nume)
 # ----------------------------● 1 cu SAU, folosind pipe |
 
-operator_pipe = driver.find_element(By.XPATH, "//*[@id='last-name'] | //*[@id='job-title']")
-print(operator_pipe)
+#operator_pipe = driver.find_element(By.XPATH, "//*[@id='last-name'] | //*[@id='job-title']")
+#print(operator_pipe)
 
 # ----------------------------● 1 cu *
-operator_steluta = driver.find_element(By.XPATH, "//*[@id='datepicker']")
-print(f'Avem: {(operator_steluta)} . ')
+#operator_steluta = driver.find_element(By.XPATH, "//*[@id='datepicker']")
+#print(f'Avem: {(operator_steluta)} . ')
 
 # --------● 1 în care le iei ca pe o listă de xpath și în python ajunge 1 element, deci cu (xpath)[1]
-
+#element_xpath = driver.find_element(By.XPATH, "(//input)[1]")
 
 # ----------------------------● 1 în care să folosești parent::
-
+#element_parinte_fara_tag = driver.find_element(By.XPATH, "//label[text()='Last name']/parent::*")
+#element_parinte_cu_tag = driver.find_element(By.XPATH, "//label[text()='Last name']/parent::strong")
 
 # ----------------------------● 1 în care să folosești fratele anterior sau de după (la alegere)
-
+#frate_dupa = driver.find_element(By.XPATH, "//option[1]/following-sibling::option")
+#frate_inainte = driver.find_element(By.XPATH, "//option[4]/preceding-sibling::option")
 
 # ----------------------------● 1 funcție ca și cea de la clasă prin care să pot alege
 # eu prin parametru cu ce element vreau să interacționez.
+
+driver = webdriver.Chrome()
+driver.get("https://formy-project.herokuapp.com/form")
+
+def alege_sexul (raspuns):
+    if raspuns == "Male":
+        print(f"Raspunsul este Barbat")
+        return driver.find_element(By.XPATH, "//*[@id='checkbox-1']").click()
+
+    elif raspuns == "Female":
+        print(f"Raspunsul este {raspuns}")
+        return driver.find_element(By.XPATH, "//*[@id='checkbox-2']").click()
+
+    else:
+        return print(f"Prefer sa nu raspund")
+
+alege_sexul("Female")
+driver.quit()
