@@ -16,6 +16,7 @@ Interactionează cu un element la alegere din listă.
 '''
 import time
 from selenium import webdriver
+from selenium.common import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 
 # ● Id
@@ -81,10 +82,17 @@ from selenium.webdriver.common.by import By
 # lista_input_2 = driver.find_elements(By.TAG_NAME, "input")
 # print(f"Avem {len(lista_input_2)} elemente cu tag-ul HTML <input>") #avem 2 elemente
 
-#cu NAME n-am facut, nu mi-e clar de unde il iau. Noi la clasa am facut exemple cu TAG_NAME
+#NAME
 
+# driver = webdriver.Chrome()
+# driver.get("https://the-internet.herokuapp.com/login")
+# time.sleep(3)
+# driver.maximize_window() #maximizez fereastra
+# lista_input_3 = driver.find_elements(By.NAME, "username")
+# print(f"Avem {len(lista_input_3)} element cu tag-ul HTML <username>") #avem 1 element
 
 # ● Class name*
+
 # driver = webdriver.Chrome()
 # driver.get("https://formy-project.herokuapp.com/enabled")
 # time.sleep(3)
@@ -118,22 +126,53 @@ from selenium.webdriver.common.by import By
 # css_atribut = driver.find_element(By.CSS_SELECTOR, 'input[id="last-name"]') #tag si atributul id
 # driver.quit()
 
-
-
 #---------------------------partea a 2 -a ________________________________
 '''
-va urma...
 Pentru xpath identifică elemente după criteriile de mai jos:
-● 3 după atribut valoare
-● 3 după textul de pe element
-● 1 după parțial text
-● 1 cu SAU, folosind pipe |
-● 1 cu *
-● 1 în care le iei ca pe o listă de xpath și în python ajunge 1 element, deci
-cu (xpath)[1]
-● 1 în care să folosești parent::
-● 1 în care să folosești fratele anterior sau de după (la alegere)
-● 1 funcție ca și cea de la clasă prin care să pot alege eu prin parametru cu
-ce element vreau să interacționez.
-'''
 
+'''
+# ----------------------------● 3 după atribut valoare
+driver = webdriver.Chrome()
+driver.get("https://formy-project.herokuapp.com/form")
+time.sleep(2)
+driver.maximize_window()
+# atribut_1_absolut = driver.find_elements(By.XPATH, '/html/body/div/form/div/div[1]/input')
+# print(f'Avem {len(atribut_1_absolut)} element')
+#
+# atribut_2_relativ = driver.find_elements(By.XPATH, '//*[@id="job-title"]')
+# print(f'Avem {len(atribut_2_relativ)} element')
+#
+# atribut_3_relativ = driver.find_elements(By.XPATH, '//*[@id="datepicker"]')
+# print(f'Avem {len(atribut_3_relativ)} element')
+
+# ----------------------------● 3 după textul de pe element
+element_text_1 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
+print(f"Avem: {(element_text_1)} elemente")
+element_text_2 = driver.find_element(By.XPATH, '//label[contains(text(),"name")]')
+element_text_3 = driver.find_element(By.XPATH, '//label[(text()="First name")]')
+element_text_4 = driver.find_element(By.XPATH, '//label[contains(text(), "Job")]')
+
+
+# ----------------------------● 1 după parțial text
+element_nume = driver.find_element(By.XPATH, '//*[contains(@ID,"name")]')
+print(element_nume)
+# ----------------------------● 1 cu SAU, folosind pipe |
+
+operator_pipe = driver.find_element(By.XPATH, "//*[@id='last-name'] | //*[@id='job-title']")
+print(operator_pipe)
+
+# ----------------------------● 1 cu *
+operator_steluta = driver.find_element(By.XPATH, "//*[@id='datepicker']")
+print(f'Avem: {(operator_steluta)} . ')
+
+# --------● 1 în care le iei ca pe o listă de xpath și în python ajunge 1 element, deci cu (xpath)[1]
+
+
+# ----------------------------● 1 în care să folosești parent::
+
+
+# ----------------------------● 1 în care să folosești fratele anterior sau de după (la alegere)
+
+
+# ----------------------------● 1 funcție ca și cea de la clasă prin care să pot alege
+# eu prin parametru cu ce element vreau să interacționez.
